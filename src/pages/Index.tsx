@@ -219,29 +219,48 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="animate-fade-in">
-                <div className="h-[500px] flex flex-col">
-                  <div className="flex-1 p-6 rounded-lg bg-muted/20 border border-border mb-4 overflow-y-auto">
-                    <div className="text-center text-muted-foreground py-20">
-                      <Icon name="MessageCircleOff" size={64} className="mx-auto mb-4 opacity-50" />
-                      <p className="text-lg">Чат временно недоступен</p>
-                      <p className="text-sm mt-2">Функция находится в разработке</p>
+                <div className="space-y-4">
+                  <div className="p-6 rounded-lg bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20">
+                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                      <Icon name="MessageCircle" size={24} className="text-primary" />
+                      Контакты для связи
+                    </h3>
+                    <div className="space-y-4">
+                      <a 
+                        href="tel:+79098044343"
+                        className="flex items-center gap-4 p-4 rounded-lg bg-card/50 border border-border hover:border-primary/50 transition-all hover:scale-[1.02] group"
+                      >
+                        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                          <Icon name="Phone" size={24} className="text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">Иван</h4>
+                          <p className="text-muted-foreground font-mono">+7 909 804 43 43</p>
+                        </div>
+                        <Icon name="ExternalLink" size={20} className="text-muted-foreground group-hover:text-primary transition-colors" />
+                      </a>
+
+                      <a 
+                        href="tel:+79242100922"
+                        className="flex items-center gap-4 p-4 rounded-lg bg-card/50 border border-border hover:border-secondary/50 transition-all hover:scale-[1.02] group"
+                      >
+                        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-gradient-to-br from-secondary to-accent flex items-center justify-center">
+                          <Icon name="Phone" size={24} className="text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-foreground group-hover:text-secondary transition-colors">Артём</h4>
+                          <p className="text-muted-foreground font-mono">+7 924 210 09 22</p>
+                        </div>
+                        <Icon name="ExternalLink" size={20} className="text-muted-foreground group-hover:text-secondary transition-colors" />
+                      </a>
                     </div>
                   </div>
-                  
-                  <div className="flex gap-2">
-                    <input 
-                      type="text" 
-                      placeholder="Введите сообщение..."
-                      disabled
-                      className="flex-1 px-4 py-3 rounded-lg bg-muted/30 border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    />
-                    <button 
-                      disabled
-                      className="px-6 py-3 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-semibold hover:shadow-lg hover:shadow-accent/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                    >
-                      <Icon name="Send" size={20} />
-                      Отправить
-                    </button>
+
+                  <div className="p-6 rounded-lg bg-muted/20 border border-border/50 text-center">
+                    <Icon name="Info" size={32} className="mx-auto mb-3 text-muted-foreground" />
+                    <p className="text-muted-foreground">
+                      Нажмите на контакт для звонка
+                    </p>
                   </div>
                 </div>
               </CardContent>
