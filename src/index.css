@@ -111,3 +111,91 @@
     font-family: "Montserrat", sans-serif;
   }
 }
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+.animate-fall {
+  animation: fall linear infinite;
+}
+
+.garland-light {
+  background: radial-gradient(
+    circle,
+    #ff0000 0%,
+    #ff6b6b 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff0000;
+  animation: garland-blink 1.5s ease-in-out infinite;
+}
+
+.garland-light:nth-child(2n) {
+  background: radial-gradient(
+    circle,
+    #00ff00 0%,
+    #6bff6b 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px #00ff00,
+    0 0 20px #00ff00;
+}
+
+.garland-light:nth-child(3n) {
+  background: radial-gradient(
+    circle,
+    #0080ff 0%,
+    #6bb6ff 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px #0080ff,
+    0 0 20px #0080ff;
+}
+
+.garland-light:nth-child(4n) {
+  background: radial-gradient(
+    circle,
+    #ffff00 0%,
+    #ffff6b 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px #ffff00,
+    0 0 20px #ffff00;
+}
+
+.garland-light:nth-child(5n) {
+  background: radial-gradient(
+    circle,
+    #ff00ff 0%,
+    #ff6bff 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff;
+}
+
+@keyframes garland-blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}

@@ -1,10 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('rules');
+  const [isWinterTheme, setIsWinterTheme] = useState(false);
+
+  useEffect(() => {
+    const checkWinterPeriod = () => {
+      const now = new Date();
+      const winterStart = new Date('2025-12-02T00:00:00');
+      const winterEnd = new Date('2025-12-31T00:35:00');
+      setIsWinterTheme(now >= winterStart && now <= winterEnd);
+    };
+    checkWinterPeriod();
+    const interval = setInterval(checkWinterPeriod, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const rules = [
     { id: '1.0', title: 'Оскорбления в сторону участников/админов', punishment: 'ПБА' },
@@ -30,15 +43,63 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1a1525] via-[#1f1b2e] to-[#0f0a1c] relative overflow-hidden">
+    <div className={`min-h-screen relative overflow-hidden ${isWinterTheme ? 'bg-gradient-to-br from-[#0a1929] via-[#1a2940] to-[#0d1b2a]' : 'bg-gradient-to-br from-[#1a1525] via-[#1f1b2e] to-[#0f0a1c]'}`}>
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM4YjVjZjYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE2YzAgNS41MjMtNC40NzcgMTAtMTAgMTBzLTEwLTQuNDc3LTEwLTEwIDQuNDc3LTEwIDEwLTEwIDEwIDQuNDc3IDEwIDEweiIvPjwvZz48L2c+PC9zdmc+')] opacity-30"></div>
       
+      {isWinterTheme && (
+        <>
+          <div className="snowflakes absolute inset-0 pointer-events-none">
+            {[...Array(50)].map((_, i) => (
+              <div
+                key={i}
+                className="snowflake absolute text-white/30 animate-fall"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `-${Math.random() * 20}px`,
+                  animationDelay: `${Math.random() * 10}s`,
+                  animationDuration: `${5 + Math.random() * 10}s`,
+                  fontSize: `${10 + Math.random() * 20}px`,
+                }}
+              >
+                ❄
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
       <div className="container mx-auto px-4 py-8 relative z-10">
-        <div className="text-center mb-12 animate-fade-in">
+        <div className="text-center mb-12 animate-fade-in relative">
+          {isWinterTheme && (
+            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-[600px] flex justify-center">
+              <div className="garland-container relative w-full h-16">
+                <svg className="w-full h-full" viewBox="0 0 600 60" preserveAspectRatio="none">
+                  <path
+                    d="M0,30 Q75,10 150,30 T300,30 T450,30 T600,30"
+                    stroke="#2d5016"
+                    strokeWidth="3"
+                    fill="none"
+                  />
+                </svg>
+                {[...Array(12)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="garland-light absolute w-3 h-3 rounded-full animate-pulse"
+                    style={{
+                      left: `${(i * 8.33) + 4}%`,
+                      top: i % 2 === 0 ? '35%' : '45%',
+                      animationDelay: `${i * 0.2}s`,
+                      animationDuration: '1.5s',
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
           <h1 className="text-7xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-4">
             5В
           </h1>
-          <p className="text-muted-foreground text-lg">Добро пожаловать в систему управления</p>
+          <p className="text-muted-foreground text-lg">{isWinterTheme ? '🎄 С наступающим Новым Годом! ❄️' : 'Добро пожаловать в систему управления'}</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-5xl mx-auto animate-fade-in-delay">
@@ -153,6 +214,12 @@ const Index = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6 animate-fade-in">
+                <div className="mb-6 p-4 rounded-lg bg-destructive/20 border border-destructive/30">
+                  <div className="flex items-center gap-3">
+                    <Icon name="Lock" size={24} className="text-destructive" />
+                    <p className="text-lg font-semibold text-destructive">⚠️ Просмотр ограничен</p>
+                  </div>
+                </div>
                 <div className="prose prose-invert max-w-none">
                   <p className="text-lg leading-relaxed text-foreground">
                     <strong className="text-primary">5В</strong> — это современная система управления группой с продвинутым функционалом и строгой системой правил.
