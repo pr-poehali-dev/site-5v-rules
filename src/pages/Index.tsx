@@ -6,6 +6,7 @@ import Icon from '@/components/ui/icon';
 const Index = () => {
   const [activeTab, setActiveTab] = useState('rules');
   const [isWinterTheme, setIsWinterTheme] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const checkWinterPeriod = () => {
@@ -18,6 +19,29 @@ const Index = () => {
     const interval = setInterval(checkWinterPeriod, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (!isWinterTheme) return;
+    
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const newYear = new Date('2026-01-01T00:00:00');
+      const difference = newYear.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+    return () => clearInterval(timer);
+  }, [isWinterTheme]);
 
   const rules = [
     { id: '1.0', title: 'Оскорбления в сторону участников/админов', punishment: 'ПБА' },
@@ -100,6 +124,41 @@ const Index = () => {
             5В
           </h1>
           <p className="text-muted-foreground text-lg">{isWinterTheme ? '🎄 С наступающим Новым Годом! ❄️' : 'Добро пожаловать в систему управления'}</p>
+          
+          {isWinterTheme && (
+            <div className="mt-8 max-w-2xl mx-auto">
+              <Card className="bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 backdrop-blur-sm border-primary/30 shadow-xl">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-2xl text-center bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent flex items-center justify-center gap-2">
+                    <Icon name="Clock" size={28} />
+                    До Нового 2026 года
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-4">
+                    <div className="text-center p-4 rounded-lg bg-card/50 border border-primary/20">
+                      <div className="text-4xl font-bold text-primary mb-1">{timeLeft.days}</div>
+                      <div className="text-sm text-muted-foreground">дней</div>
+                    </div>
+                    <div className="text-center p-4 rounded-lg bg-card/50 border border-secondary/20">
+                      <div className="text-4xl font-bold text-secondary mb-1">{String(timeLeft.hours).padStart(2, '0')}</div>
+                      <div className="text-sm text-muted-foreground">часов</div>
+                    </div>
+                    <div className="text-center p-4 rounded-lg bg-card/50 border border-accent/20">
+                      <div className="text-4xl font-bold text-accent mb-1">{String(timeLeft.minutes).padStart(2, '0')}</div>
+                      <div className="text-sm text-muted-foreground">минут</div>
+                    </div>
+                    <div className="text-center p-4 rounded-lg bg-card/50 border border-primary/20">
+                      <div className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-1">
+                        {String(timeLeft.seconds).padStart(2, '0')}
+                      </div>
+                      <div className="text-sm text-muted-foreground">секунд</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-5xl mx-auto animate-fade-in-delay">
